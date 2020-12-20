@@ -14,7 +14,7 @@ export abstract class BaseGrid {
     return this._tags
   }
 
-  get tagValues () {
+  get tagValues (): Array<number|string> {
     return this._tags.map((tag) => tag.value)
   }
 
@@ -72,8 +72,8 @@ export class NumberGrid extends BaseGrid {
 }
 
 export class WordGrid extends BaseGrid {
-  public winTagValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]
   public defaultTagLabels = 'RATEYOURMINDPAL'
+  public winTagValues = [...this.defaultTagLabels.split(''), 0]
 
   constructor (gridSize?: number) {
     super(gridSize)
@@ -86,7 +86,7 @@ export class WordGrid extends BaseGrid {
       tags.push(
         new Tag({
           label: this.defaultTagLabels?.[i] ?? '',
-          value: i + 1
+          value: this.defaultTagLabels?.[i] ?? ''
         })
       )
     }
@@ -104,8 +104,8 @@ export class WordGrid extends BaseGrid {
 }
 
 export class WordRuGrid extends BaseGrid {
-  public winTagValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]
   public defaultTagLabels = 'СЛОНСПИТСТОЯАВЫ'
+  public winTagValues = [...this.defaultTagLabels.split(''), 0]
 
   constructor (gridSize?: number) {
     super(gridSize)
@@ -118,7 +118,7 @@ export class WordRuGrid extends BaseGrid {
       tags.push(
         new Tag({
           label: this.defaultTagLabels?.[i] ?? '',
-          value: i + 1
+          value: this.defaultTagLabels?.[i] ?? ''
         })
       )
     }
@@ -127,10 +127,11 @@ export class WordRuGrid extends BaseGrid {
       value: 0
     }))
 
-    return arrayShuffle(tags)
+    return tags
   }
 
   checkWin (): boolean {
+    debugger
     return isEqual(this.tagValues, this.winTagValues)
   }
 }
