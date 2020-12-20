@@ -3,6 +3,10 @@
     <HelloWindow v-if="screen === Screens.Hello" @start="onStart" ></HelloWindow>
     <WinWindow v-else-if="screen === Screens.Win" :prevSteps="prevSteps" :steps="steps" @reset="onReset"></WinWindow>
     <template v-else-if="screen === Screens.Game">
+      <div class="tip-area">
+        <strong>Цель</strong>
+        <img :src="targetImg" width="100%" height="200px" alt="">
+      </div>
       <div class="steps-display">
         Шаги: {{steps}}
       </div>
@@ -49,6 +53,17 @@ export default class App extends Vue {
 
   get Screens () {
     return Screens
+  }
+
+  get targetImg () {
+    switch (this.currentGridType) {
+      case GridType.NumberGrid:
+        return require('./assets/numbers.png')
+      case GridType.WordGrid:
+        return require('./assets/words.png')
+      case GridType.WordRuGrid:
+        return require('./assets/words-ru.png')
+    }
   }
 
   public loadSettings () {
@@ -106,5 +121,9 @@ export default class App extends Vue {
   margin-bottom: 20px;
   font-weight: bolder;
   font-size: 20px;
+}
+
+.tip-area {
+  max-width: 200px;
 }
 </style>
