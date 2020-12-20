@@ -103,7 +103,40 @@ export class WordGrid extends BaseGrid {
   }
 }
 
+export class WordRuGrid extends BaseGrid {
+  public winTagValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]
+  public defaultTagLabels = 'СЛОНСПИТСТОЯАВЫ'
+
+  constructor (gridSize?: number) {
+    super(gridSize)
+    this._tags = this.getGridTags()
+  }
+
+  private getGridTags (): Tag[] {
+    const tags = []
+    for (let i = 0; i < 15; i++) {
+      tags.push(
+        new Tag({
+          label: this.defaultTagLabels?.[i] ?? '',
+          value: i + 1
+        })
+      )
+    }
+    tags.push(new Tag({
+      type: TagType.Empty,
+      value: 0
+    }))
+
+    return arrayShuffle(tags)
+  }
+
+  checkWin (): boolean {
+    return isEqual(this.tagValues, this.winTagValues)
+  }
+}
+
 export enum GridType {
   NumberGrid,
-  WordGrid
+  WordGrid,
+  WordRuGrid
 }

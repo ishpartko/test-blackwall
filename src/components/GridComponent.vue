@@ -9,9 +9,9 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import TagButton from './TagButton.vue'
-import { GridType, NumberGrid, WordGrid } from '../models/Grid'
+import { GridType, NumberGrid, WordGrid, WordRuGrid } from '../models/Grid'
 
-type AnyGrid = NumberGrid | WordGrid
+type AnyGrid = NumberGrid | WordGrid | WordRuGrid
 
 @Component({
   components: {
@@ -33,6 +33,8 @@ export default class GridComponent extends Vue {
         return new NumberGrid()
       case GridType.WordGrid:
         return new WordGrid()
+      case GridType.WordRuGrid:
+        return new WordRuGrid()
       default:
         return new NumberGrid()
     }

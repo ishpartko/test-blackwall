@@ -31,11 +31,15 @@ export default class HelloWindow extends Vue {
   get gameModes () {
     return [
       {
-        title: 'Пятнашки цифры',
+        title: 'Цифры',
         value: GridType.NumberGrid
       },
       {
-        title: 'Пятнашки слова',
+        title: 'Русские слова',
+        value: GridType.WordRuGrid
+      },
+      {
+        title: 'Английские слова',
         value: GridType.WordGrid
       }
     ]
@@ -68,6 +72,15 @@ export default class HelloWindow extends Vue {
   padding: 10px;
   display: flex;
   flex-direction: column;
+}
+
+.win-window__radio-area label {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.win-window__radio-area label input {
+  cursor: inherit;
 }
 
 .win-window__button {
