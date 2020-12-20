@@ -127,7 +127,7 @@ export class WordRuGrid extends BaseGrid {
       value: 0
     }))
 
-    return tags
+    return arrayShuffle(tags)
   }
 
   checkWin (): boolean {
