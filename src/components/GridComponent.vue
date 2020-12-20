@@ -23,10 +23,6 @@ export default class GridComponent extends Vue {
 
   private grid: AnyGrid = this.createGrid()
 
-  public reset () {
-    this.grid = this.createGrid()
-  }
-
   public createGrid () {
     switch (this.gridType) {
       case GridType.NumberGrid:

@@ -96,9 +96,6 @@ export default class App extends Vue {
 
     this.steps = 0
     this.screen = Screens.Hello
-    this.$nextTick(() => {
-      this.grid.reset()
-    })
   }
 }
 </script>
