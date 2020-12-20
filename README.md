@@ -1,6 +1,6 @@
 # test-blackwall
 
-## Демка
+## Demo
 
 https://ishpartko.github.io/test-blackwall/
 
