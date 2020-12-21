@@ -35,6 +35,7 @@ export default class TagButton extends Vue {
   color: white;
   border: 1px dashed #47A9F5;
   cursor: pointer;
+  z-index: 2;
 }
 
 .tag-button:hover:not(.tag-button_empty) {
@@ -44,5 +45,7 @@ export default class TagButton extends Vue {
 .tag-button_empty {
   background: white;
   cursor: not-allowed;
+
+  z-index: 1;
 }
 </style>

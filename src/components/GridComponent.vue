@@ -1,9 +1,9 @@
 <template>
-  <div class="grid">
-    <TagButton v-for="(tag, key) in grid.tags" :key="tag.id" :type="tag.type" @click="tryMoveTagByKey(key)">
+  <transition-group class="grid" name="grid-animation" tag="div">
+    <TagButton class="grid__tag-button" v-for="(tag, key) in grid.tags" :key="tag.id" :type="tag.type" @click="tryMoveTagByKey(key)">
       {{tag.label}}
     </TagButton>
-  </div>
+  </transition-group>
 </template>
 
 <script lang="ts">
@@ -37,6 +37,8 @@ export default class GridComponent extends Vue {
   }
 
   private tryMoveTagByKey (key: number) {
+    // this.grid.getTagMoventDirectionByIndex(key)
+
     const isMoved = this.grid.tryMoveTagByTagIndex(key)
 
     if (!isMoved) return
@@ -57,5 +59,17 @@ export default class GridComponent extends Vue {
   grid-template-columns: repeat(4, 50px);
 
   border: 2px solid #47A9F5;
+}
+
+.grid__tag-button {
+  transition: all 1s;
+}
+
+.grid-animation-enter, .grid-animation-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.grid-animation-leave-active {
+  position: absolute;
 }
 </style>
