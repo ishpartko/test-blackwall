@@ -138,7 +138,6 @@ export class WordRuGrid extends BaseGrid {
   }
 
   checkWin (): boolean {
-    debugger
     return isEqual(this.tagValues, this.winTagValues)
   }
 }
