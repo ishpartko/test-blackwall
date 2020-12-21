@@ -43,7 +43,10 @@ export default class GridComponent extends Vue {
 
     const isWon = this.grid.checkWin()
     this.$emit('incrementSteps')
-    isWon && this.$emit('win')
+
+    if (isWon) {
+      this.$emit('win')
+    }
   }
 }
 </script>
