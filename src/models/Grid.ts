@@ -1,6 +1,6 @@
-import { isEqual } from 'lodash-es'
+import { isEqual, shuffle } from 'lodash-es'
 import { Tag, TagType } from './Tag'
-import arrayShuffle from 'array-shuffle'
+
 
 export abstract class BaseGrid {
   protected _tags: Tag[] = []
@@ -63,7 +63,7 @@ export class NumberGrid extends BaseGrid {
       value: 0
     }))
 
-    return arrayShuffle(tags)
+    return shuffle(tags)
   }
 
   checkWin (): boolean {
@@ -95,7 +95,7 @@ export class WordGrid extends BaseGrid {
       value: 0
     }))
 
-    return arrayShuffle(tags)
+    return shuffle(tags)
   }
 
   checkWin (): boolean {
@@ -127,7 +127,7 @@ export class WordRuGrid extends BaseGrid {
       value: 0
     }))
 
-    return arrayShuffle(tags)
+    return shuffle(tags)
   }
 
   checkWin (): boolean {
