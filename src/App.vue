@@ -7,27 +7,42 @@
         <strong>Цель</strong>
         <img :src="targetImg" width="100%" height="200px" alt="">
       </div>
+      <button @click="onReset">Заново</button>
+      <div class="steps-display">
+        Время: {{animatedNumber}} {{pluSecondsWord}}
+      </div>
       <div class="steps-display">
         Шаги: {{steps}}
       </div>
       <GridComponent v-if="isGameReadyToShow" @incrementSteps="onIncrementSteps" @win="onWin" ref="grid" :gridType="currentGridType" />
     </template>
+    <div v-else-if="screen === Screens.Lose">
+      <div>
+        К сожалению время закончилось! :(
+      </div>
+      <button @click="onReset">Заново</button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Ref, Vue } from 'vue-property-decorator'
+import { Component, Ref, Vue, Watch } from 'vue-property-decorator'
 import GridComponent from './components/GridComponent.vue'
 import WinWindow from './components/WinWindow.vue'
 import { GridType } from './models/Grid'
 import HelloWindow from './components/HelloWindow.vue'
 import { isNil } from 'lodash-es'
+import plural from 'plural-ru'
+import gsap from 'gsap'
 
 enum Screens {
   Win,
   Hello,
-  Game
+  Game,
+  Lose
 }
+
+const TIME_TO_GAME = 200
 
 @Component({
   components: {
@@ -43,8 +58,47 @@ export default class App extends Vue {
   public prevSteps = 0
   public currentGridType = GridType.NumberGrid
 
+  private timer: number = this.startTimer()
+  private currentTime = TIME_TO_GAME
+  private tweenedNumber = this.currentTime
+
+  startTimer () {
+    return setInterval(() => {
+      this.currentTime--
+    }, 1000)
+  }
+
+  resetTimer () {
+    this.timer = this.startTimer()
+    this.currentTime = TIME_TO_GAME
+    this.tweenedNumber = this.currentTime
+  }
+
+  stopTimer () {
+    clearTimeout(this.timer)
+  }
+
   mounted () {
+    this.stopTimer()
     this.loadSettings()
+  }
+
+  get animatedNumber () {
+    return this.tweenedNumber.toFixed(0)
+  }
+
+  @Watch('currentTime')
+  onCurrentTimeChanged (time: number) {
+    if (time === 0) {
+      this.stopTimer()
+      this.screen = Screens.Lose
+    } else {
+      gsap.to(this.$data, { duration: 0.5, tweenedNumber: time })
+    }
+  }
+
+  get pluSecondsWord () {
+    return plural(this.steps, 'секунда', 'секунды', 'секунд')
   }
 
   get isGameReadyToShow () {
@@ -78,12 +132,16 @@ export default class App extends Vue {
   }
 
   public onWin () {
+    this.stopTimer()
     this.screen = Screens.Win
+
+    this.setPrevSteps(this.steps)
   }
 
   public onStart (gameOptions: { gridType?: GridType }) {
     this.currentGridType = gameOptions?.gridType || GridType.NumberGrid
     this.screen = Screens.Game
+    this.resetTimer()
   }
 
   public setPrevSteps (prevSteps: number) {
@@ -92,10 +150,12 @@ export default class App extends Vue {
   }
 
   public onReset () {
-    this.setPrevSteps(this.steps)
+    this.stopTimer()
 
     this.steps = 0
-    this.screen = Screens.Hello
+    this.$nextTick(() => {
+      this.screen = Screens.Hello
+    })
   }
 }
 </script>
