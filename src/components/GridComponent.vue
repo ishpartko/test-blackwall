@@ -59,6 +59,10 @@ export default class GridComponent extends Vue {
   grid-template-columns: repeat(4, 50px);
 
   border: 2px solid #47A9F5;
+
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 .grid__tag-button {
