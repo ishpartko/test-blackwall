@@ -1,7 +1,6 @@
 import { isEqual, shuffle } from 'lodash-es'
 import { Tag, TagType } from './Tag'
 
-
 export abstract class BaseGrid {
   protected _tags: Tag[] = []
   protected gridSize: number
@@ -18,6 +17,10 @@ export abstract class BaseGrid {
     return this._tags.map((tag) => tag.value)
   }
 
+  public getEmptyTagIndex (): number {
+    return this._tags.findIndex((tag) => tag.type === TagType.Empty)
+  }
+
   protected isTagsNear (tagIndex: number, otherTagIndex: number, gridSize: number): boolean {
     return tagIndex + 1 === otherTagIndex ||
     tagIndex - 1 === otherTagIndex ||
@@ -26,14 +29,18 @@ export abstract class BaseGrid {
   }
 
   public tryMoveTagByTagIndex (tagIndex: number): boolean {
-    const emptyTagIndex = this._tags.findIndex((tag) => tag.type === TagType.Empty)
+    const emptyTagIndex = this.getEmptyTagIndex()
 
     const isTagsNear = this.isTagsNear(tagIndex, emptyTagIndex, this.gridSize)
     if (isTagsNear) {
       const tag = this._tags[tagIndex]
       const emptyTag = this._tags[emptyTagIndex]
-      this._tags.splice(tagIndex, 1, emptyTag)
-      this._tags.splice(emptyTagIndex, 1, tag)
+
+      const localTags = [...this._tags]
+
+      localTags.splice(tagIndex, 1, emptyTag)
+      localTags.splice(emptyTagIndex, 1, tag)
+      this._tags = localTags
     }
 
     return isTagsNear
