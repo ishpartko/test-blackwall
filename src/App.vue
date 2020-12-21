@@ -98,7 +98,7 @@ export default class App extends Vue {
   }
 
   get pluSecondsWord () {
-    return plural(this.steps, 'секунда', 'секунды', 'секунд')
+    return plural(this.currentTime, 'секунда', 'секунды', 'секунд')
   }
 
   get isGameReadyToShow () {
