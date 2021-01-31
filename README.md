@@ -2,7 +2,7 @@
 
 ## Demo
 
-https://ishpartko.github.io/test-blackwall/
+https://ishpartko.github.io/the-tag-game/
 
 ## Project setup
 ```
